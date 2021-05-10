@@ -1,4 +1,5 @@
 import LoginController from './login'
+import { MissingParamError } from '../errors/missing-params-error'
 
 describe('Login Controller', () => {
   test('Should return 400 if no email is provided', () => {
@@ -10,7 +11,7 @@ describe('Login Controller', () => {
     }
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new Error('Missing param: email'))
+    expect(httpResponse.body).toEqual(new MissingParamError('email'))
   })
 
   test('Should return 400 if no password is provided', () => {
@@ -22,6 +23,6 @@ describe('Login Controller', () => {
     }
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new Error('Missing param: password'))
+    expect(httpResponse.body).toEqual(new MissingParamError('password'))
   })
 })
