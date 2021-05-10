@@ -1,5 +1,7 @@
+import { HttpRequest, HttpResponse } from '../interfaces/http'
+
 export default class LoginController {
-  handle (httpRequest: any): any {
+  handle (httpRequest: HttpRequest): HttpResponse {
     const httpResponse = {
       statusCode: 400,
       body: new Error()
