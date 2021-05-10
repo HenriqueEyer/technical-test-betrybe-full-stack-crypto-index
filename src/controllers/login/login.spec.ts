@@ -2,10 +2,12 @@ import LoginController from './login'
 import { MissingParamError } from '../errors/missing-params-error'
 import { InvalidParamError } from '../errors/invalid-params-error'
 import { EmailValidator } from '../interfaces/email-validator'
+import { PasswordValidator } from '../interfaces/password-validator'
 
 interface SutTypes {
   sut: LoginController
   emailValidatorStub: EmailValidator
+  passwordValidatorStub: PasswordValidator
 }
 
 const makeSut = (): SutTypes => {
@@ -14,11 +16,20 @@ const makeSut = (): SutTypes => {
       return true
     }
   }
+
+  class PasswordValidatorStub implements PasswordValidator {
+    isValid (password: string): boolean {
+      return true
+    }
+  }
+
   const emailValidatorStub = new EmailValidatorStub()
-  const sut = new LoginController(emailValidatorStub)
+  const passwordValidatorStub = new PasswordValidatorStub()
+  const sut = new LoginController(emailValidatorStub, passwordValidatorStub)
   return {
     sut,
-    emailValidatorStub
+    emailValidatorStub,
+    passwordValidatorStub
   }
 }
 
@@ -54,6 +65,20 @@ describe('Login Controller', () => {
       body: {
         email: 'invalid_email@mail.com',
         password: 'any_password'
+      }
+    }
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new InvalidParamError())
+  })
+
+  test('Should return 400 if invalid password is provided', () => {
+    const { sut, passwordValidatorStub } = makeSut()
+    jest.spyOn(passwordValidatorStub, 'isValid').mockReturnValueOnce(false)
+    const httpRequest = {
+      body: {
+        email: 'any_email@mail.com',
+        password: 'invalid_password'
       }
     }
     const httpResponse = sut.handle(httpRequest)
