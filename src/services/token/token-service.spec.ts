@@ -14,4 +14,11 @@ describe('TokenService', () => {
     const isAphaNumeric = validator.isAlphanumeric(token)
     expect(isAphaNumeric).toBe(true)
   })
+
+  test('Should TokenService return a token different token with another login was done', () => {
+    const sut = new TokenServiceAdapter()
+    const token1 = sut.generateToken('any_email','any_password')
+    const token2 = sut.generateToken('any_email','any_password')
+    expect(token1).not.toBe(token2)
+  })
 })
