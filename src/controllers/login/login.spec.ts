@@ -3,6 +3,7 @@ import { MissingParamError } from '../errors/missing-params-error'
 import { InvalidParamError } from '../errors/invalid-params-error'
 import { EmailValidator } from '../interfaces/email-validator'
 import { PasswordValidator } from '../interfaces/password-validator'
+import { ServerError } from '../errors/server-error'
 
 interface SutTypes {
   sut: LoginController
@@ -72,19 +73,6 @@ describe('Login Controller', () => {
     expect(httpResponse.body).toEqual(new InvalidParamError())
   })
 
-  test('Should Call EmailValidator with correct email', () => {
-    const { sut, emailValidatorStub } = makeSut()
-    const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid')
-    const httpRequest = {
-      body: {
-        email: 'any_email@mail.com',
-        password: 'any_password'
-      }
-    }
-    sut.handle(httpRequest)
-    expect(isValidSpy).toHaveBeenCalledWith(httpRequest.body.email)
-  })
-
   test('Should return 400 if invalid password is provided', () => {
     const { sut, passwordValidatorStub } = makeSut()
     jest.spyOn(passwordValidatorStub, 'isValid').mockReturnValueOnce(false)
@@ -97,6 +85,35 @@ describe('Login Controller', () => {
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidParamError())
+  })
+
+  test('Should return 500 if EmailValidator throws', () => {
+    const { sut, emailValidatorStub } = makeSut()
+    jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const httpRequest = {
+      body: {
+        email: 'any_email@mail.com',
+        password: 'any_password'
+      }
+    }
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
+  })
+
+  test('Should Call EmailValidator with correct email', () => {
+    const { sut, emailValidatorStub } = makeSut()
+    const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid')
+    const httpRequest = {
+      body: {
+        email: 'any_email@mail.com',
+        password: 'any_password'
+      }
+    }
+    sut.handle(httpRequest)
+    expect(isValidSpy).toHaveBeenCalledWith(httpRequest.body.email)
   })
 
   test('Should Call PasswordValidator with correct password', () => {
