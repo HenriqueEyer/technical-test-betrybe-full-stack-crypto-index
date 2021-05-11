@@ -1,9 +1,6 @@
 import LoginController from './login'
-import { MissingParamError } from '../errors/missing-params-error'
-import { InvalidParamError } from '../errors/invalid-params-error'
-import { EmailValidator } from '../interfaces/email-validator'
-import { PasswordValidator } from '../interfaces/password-validator'
-import { ServerError } from '../errors/server-error'
+import { EmailValidator, PasswordValidator } from '../interfaces'
+import { MissingParamError, InvalidParamError, ServerError } from '../errors'
 
 interface SutTypes {
   sut: LoginController
