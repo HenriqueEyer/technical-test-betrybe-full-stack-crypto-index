@@ -6,5 +6,7 @@ export class TokenServiceAdapter implements TokenService {
     return generateToken()
   }
 
-  validToken: (token: string) => string
+  validToken (token: string): boolean {
+    return true
+  }
 }
