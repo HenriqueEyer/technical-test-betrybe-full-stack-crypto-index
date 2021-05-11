@@ -1,5 +1,6 @@
 import { TokenServiceAdapter } from './token-service'
 import validator from 'validator'
+import * as utils from './utils'
 
 describe('TokenService', () => {
   test('Should generateToken return a token with size 16', () => {
@@ -22,10 +23,19 @@ describe('TokenService', () => {
     expect(token1).not.toBe(token2)
   })
 
-  test('Should validToken return true if utils validation return true', () => {
+  test('Should validToken return true if utils validation return true', async () => {
     const sut = new TokenServiceAdapter()
+    jest.spyOn(utils, 'isValidToken').mockReturnValueOnce(Promise.resolve(true))
     const token = 'any_token'
-    const isValid = sut.validToken(token)
+    const isValid = await sut.validToken(token)
     expect(isValid).toBe(true)
+  })
+
+  test('Should validToken return false if utils validation return false', async () => {
+    const sut = new TokenServiceAdapter()
+    jest.spyOn(utils, 'isValidToken').mockReturnValueOnce(Promise.resolve(false))
+    const token = 'any_token'
+    const isValid = await sut.validToken(token)
+    expect(isValid).toBe(false)
   })
 })
