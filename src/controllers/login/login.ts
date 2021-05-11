@@ -34,7 +34,8 @@ export default class LoginController implements Controller {
         return badRequest(new InvalidParamError())
       }
 
-      this.tokenService.generateToken(email, password)
+      const token = this.tokenService.generateToken(email, password)
+      return successRequest(token)
     } catch (error) {
       return serverError()
     }
