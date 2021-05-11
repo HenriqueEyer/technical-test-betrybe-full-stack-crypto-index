@@ -27,6 +27,10 @@ const makeSut = (): SutTypes => {
     generateToken (password: string, email: string): string {
       return 'any_token'
     }
+
+    async validToken (token: string): Promise<boolean> {
+      return Promise.resolve(true)
+    }
   }
 
   const tokenServiceStub = new TokenServiceStub()
