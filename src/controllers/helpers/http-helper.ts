@@ -10,3 +10,10 @@ export const serverError = (): HttpResponse => ({
   statusCode: 500,
   body: new ServerError()
 })
+
+export const successRequest = (token: string): HttpResponse => ({
+  statusCode: 200,
+  body: {
+    token
+  }
+})

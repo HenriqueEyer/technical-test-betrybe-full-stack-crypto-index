@@ -1,14 +1,17 @@
-import { badRequest, serverError } from '../helpers/http-helper'
+import { badRequest, serverError, successRequest } from '../helpers/http-helper'
 import { EmailValidator, PasswordValidator, Controller, HttpRequest, HttpResponse } from '../interfaces'
 import { MissingParamError, InvalidParamError } from '../errors'
+import { TokenService } from '../../services/Token/token-service-interface'
 
 export default class LoginController implements Controller {
   private readonly emailValidator: EmailValidator
   private readonly passwordValidator: PasswordValidator
+  private readonly tokenService: TokenService
 
-  constructor (emailValidator: EmailValidator, passwordValidator: PasswordValidator) {
+  constructor (emailValidator: EmailValidator, passwordValidator: PasswordValidator, tokenService: TokenService) {
     this.emailValidator = emailValidator
     this.passwordValidator = passwordValidator
+    this.tokenService = tokenService
   }
 
   handle (httpRequest: HttpRequest): HttpResponse {
@@ -30,6 +33,8 @@ export default class LoginController implements Controller {
       if (!isValidPassword) {
         return badRequest(new InvalidParamError())
       }
+
+      this.tokenService.generateToken(email, password)
     } catch (error) {
       return serverError()
     }
