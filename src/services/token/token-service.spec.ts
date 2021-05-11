@@ -9,7 +9,7 @@ describe('TokenService', () => {
     expect(token.length).toBe(16)
   })
 
-  test('Should generateToken return a token just with Alfanumeric', () => {
+  test('Should generateToken return a token just with Alphanumeric', () => {
     const sut = new TokenServiceAdapter()
     const token = sut.generateToken()
     const isAphaNumeric = validator.isAlphanumeric(token)
