@@ -98,4 +98,17 @@ describe('Login Controller', () => {
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidParamError())
   })
+
+  test('Should Call PasswordValidator with correct password', () => {
+    const { sut, passwordValidatorStub } = makeSut()
+    const isValidSpy = jest.spyOn(passwordValidatorStub, 'isValid')
+    const httpRequest = {
+      body: {
+        email: 'any_email@mail.com',
+        password: 'any_password'
+      }
+    }
+    sut.handle(httpRequest)
+    expect(isValidSpy).toHaveBeenCalledWith(httpRequest.body.password)
+  })
 })
