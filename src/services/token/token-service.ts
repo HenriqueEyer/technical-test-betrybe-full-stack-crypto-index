@@ -1,8 +1,9 @@
 import { TokenService } from './token-service-interface'
+import { generateToken } from './utils'
 
 export class TokenServiceAdapter implements TokenService {
   generateToken (email: string, password: string): string {
-    return '123456789AbcdeFG'
+    return generateToken()
   }
 
   validToken: (token: string) => string
