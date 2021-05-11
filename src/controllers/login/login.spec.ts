@@ -165,4 +165,21 @@ describe('Login Controller', () => {
     sut.handle(httpRequest)
     expect(generateTokenSpy).toHaveBeenCalledWith(email, password)
   })
+
+  test('Should return 500 if TokenService throws', () => {
+    const { sut, tokenServiceStub } = makeSut()
+    jest.spyOn(tokenServiceStub, 'generateToken').mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    const httpRequest = {
+      body: {
+        email: 'any_email@mail.com',
+        password: 'any_password'
+      }
+    }
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
+  })
 })
