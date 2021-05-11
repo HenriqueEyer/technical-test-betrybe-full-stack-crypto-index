@@ -182,4 +182,19 @@ describe('Login Controller', () => {
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
   })
+
+  test('Should return 200 if generateToken Success and return a token', () => {
+    const { sut, tokenServiceStub } = makeSut()
+    const mockToken = 'any_token'
+    jest.spyOn(tokenServiceStub, 'generateToken').mockReturnValueOnce(mockToken)
+    const httpRequest = {
+      body: {
+        email: 'any_email@mail.com',
+        password: 'any_password'
+      }
+    }
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(200)
+    expect(httpResponse.body.token).toEqual(mockToken)
+  })
 })
