@@ -1,11 +1,13 @@
 import LoginController from './login'
 import { EmailValidator, PasswordValidator } from '../interfaces'
 import { MissingParamError, InvalidParamError, ServerError } from '../errors'
+import { TokenService } from '../../services/Token/token-service-interface'
 
 interface SutTypes {
   sut: LoginController
   emailValidatorStub: EmailValidator
   passwordValidatorStub: PasswordValidator
+  tokenServiceStub: TokenService
 }
 
 const makeSut = (): SutTypes => {
@@ -21,12 +23,20 @@ const makeSut = (): SutTypes => {
     }
   }
 
+  class TokenServiceStub implements TokenService {
+    generateToken (password: string, email: string): string {
+      return 'any_token'
+    }
+  }
+
+  const tokenServiceStub = new TokenServiceStub()
   const emailValidatorStub = new EmailValidatorStub()
   const passwordValidatorStub = new PasswordValidatorStub()
-  const sut = new LoginController(emailValidatorStub, passwordValidatorStub)
+  const sut = new LoginController(emailValidatorStub, passwordValidatorStub, tokenServiceStub)
   return {
     sut,
     emailValidatorStub,
+    tokenServiceStub,
     passwordValidatorStub
   }
 }
@@ -140,5 +150,19 @@ describe('Login Controller', () => {
     }
     sut.handle(httpRequest)
     expect(isValidSpy).toHaveBeenCalledWith(httpRequest.body.password)
+  })
+
+  test('Should Call GenerateToken with correct values', () => {
+    const { sut, tokenServiceStub } = makeSut()
+    const generateTokenSpy = jest.spyOn(tokenServiceStub, 'generateToken')
+    const httpRequest = {
+      body: {
+        email: 'any_email@mail.com',
+        password: 'any_password'
+      }
+    }
+    const { email, password } = httpRequest.body
+    sut.handle(httpRequest)
+    expect(generateTokenSpy).toHaveBeenCalledWith(email, password)
   })
 })
