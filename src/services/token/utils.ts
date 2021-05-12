@@ -1,10 +1,11 @@
 import path from 'path'
 import { promises } from 'fs'
 import validator from 'validator'
+import { FileToken } from './token-service-interface'
 
-const getTokens = async (): Promise<string[]> => {
-  const content = await promises.readFile(path.resolve(__dirname, 'data', 'tokens.json'))
-  return JSON.parse(content.toString('utf-8'))
+export const getTokens = async (): Promise<FileToken> => {
+  const content = await promises.readFile(path.resolve(__dirname, 'data', 'tokens.json'), 'utf8')
+  return JSON.parse(content)
 }
 
 export const isValidToken = async (token: string): Promise<boolean> => {
@@ -12,7 +13,7 @@ export const isValidToken = async (token: string): Promise<boolean> => {
   if (!isValidFormat) {
     return false
   }
-  const tokens = await getTokens()
+  const { tokens } = await getTokens()
   const isGenerateToken = tokens.some(value => value === token)
   if (!isGenerateToken) {
     return false
