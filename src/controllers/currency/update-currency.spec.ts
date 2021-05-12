@@ -34,4 +34,16 @@ describe('UpdateCurrencyController', () => {
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidBodyError('Moeda'))
   })
+
+  test('Should return 400 if no valor is provided', async () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        currency: 'ANY'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new InvalidBodyError('Valor'))
+  })
 })
