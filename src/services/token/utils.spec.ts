@@ -24,4 +24,12 @@ describe('Utils', () => {
     const isValid = await utils.isValidToken(token)
     expect(isValid).toBe(true)
   })
+
+  test('Should Utils.validToken return false if pass a token with size lesser not equal 16', async () => {
+    const token = 'invalid_token12345'
+    jest.spyOn(promises, 'readFile').mockReturnValueOnce(Promise.resolve('{ "tokens": ["any_token", "invalid_token12345"]}'))
+    jest.spyOn(validator, 'isAlphanumeric').mockReturnValueOnce(true)
+    const isValid = await utils.isValidToken(token)
+    expect(isValid).toBe(false)
+  })
 })
