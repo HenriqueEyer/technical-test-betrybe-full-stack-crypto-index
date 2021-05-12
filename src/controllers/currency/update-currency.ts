@@ -1,6 +1,6 @@
 import { badRequest, serverError } from '../helpers/http-helper'
 import { Controller, CurrencyValidator, CurrencyValueValidator, HttpRequest, HttpResponse } from '../../interfaces'
-import { InvalidBodyError } from '../../controllers/errors'
+import { InvalidBodyError } from '../../errors'
 
 export default class UpdateCurrencyController implements Controller {
   private readonly currencyValidator: CurrencyValidator

@@ -1,6 +1,6 @@
 import LoginController from './login'
 import { EmailValidator, PasswordValidator } from '../../interfaces'
-import { MissingParamError, InvalidParamError, ServerError } from '../errors'
+import { MissingParamError, InvalidParamError, ServerError } from '../../errors'
 import { TokenService } from '../../interfaces/token'
 
 interface SutTypes {

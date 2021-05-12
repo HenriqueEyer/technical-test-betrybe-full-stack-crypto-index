@@ -1,6 +1,6 @@
 import { badRequest, serverError, successRequestLogin } from '../helpers/http-helper'
 import { EmailValidator, PasswordValidator, Controller, HttpRequest, HttpResponse } from '../../interfaces'
-import { MissingParamError, InvalidParamError } from '../errors'
+import { MissingParamError, InvalidParamError } from '../../errors'
 import { TokenService } from '../../interfaces/token'
 
 export default class LoginController implements Controller {
