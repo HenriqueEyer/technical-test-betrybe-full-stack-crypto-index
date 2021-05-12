@@ -1,4 +1,4 @@
-import { successRequestGetCurrency } from '../helpers/http-helper'
+import { serverError, successRequestGetCurrency } from '../helpers/http-helper'
 import { Controller, GetCurrency, HttpRequest, HttpResponse } from '../../interfaces'
 
 export default class LoadCurrencyController implements Controller {
@@ -9,7 +9,11 @@ export default class LoadCurrencyController implements Controller {
   }
 
   async handle (httpRequest?: HttpRequest): Promise<HttpResponse> {
-    const data = await this.currency.getCurrency()
-    return successRequestGetCurrency(data)
+    try {
+      const data = await this.currency.getCurrency()
+      return successRequestGetCurrency(data)
+    } catch (error) {
+      return serverError()
+    }
   }
 }
