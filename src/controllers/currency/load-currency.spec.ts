@@ -44,9 +44,21 @@ const makeSut = (): SutTypes => {
 }
 
 describe('LoadCurrencyController', () => {
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   test('Should return 200 and a body with correct values', async () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle()
     expect(httpResponse.statusCode).toBe(200)
+    expect(httpResponse.body.data).toEqual(mockData)
+  })
+
+  test('Should call currencyAdapterStub.getCurrency one time', async () => {
+    const { sut, currencyAdapterStub } = makeSut()
+    const getCurrencySpy = jest.spyOn(currencyAdapterStub, 'getCurrency')
+    await sut.handle()
+    expect(getCurrencySpy).toBeCalledTimes(1)
   })
 })
