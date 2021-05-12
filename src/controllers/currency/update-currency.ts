@@ -1,4 +1,4 @@
-import { badRequest } from '../helpers/http-helper'
+import { badRequest, serverError } from '../helpers/http-helper'
 import { Controller, CurrencyValidator, CurrencyValueValidator, HttpRequest, HttpResponse } from '../../interfaces'
 import { InvalidBodyError } from '../../controllers/errors'
 
@@ -12,20 +12,30 @@ export default class UpdateCurrencyController implements Controller {
   }
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    const requiredFields = ['currency', 'value']
-    const messageError = {
-      currency: 'Moeda',
-      value: 'Valor'
-    }
-    for (const field of requiredFields) {
-      if (!httpRequest.body[field]) {
-        return badRequest(new InvalidBodyError(messageError[field]))
+    try {
+      const requiredFields = ['currency', 'value']
+      const messageError = {
+        currency: 'Moeda',
+        value: 'Valor'
       }
-    }
-    const { currency } = httpRequest.body
-    const currencyIsValid = this.currencyValidator.isValid(currency)
-    if (!currencyIsValid) {
-      return badRequest(new InvalidBodyError('Moeda'))
+      for (const field of requiredFields) {
+        if (!httpRequest.body[field]) {
+          return badRequest(new InvalidBodyError(messageError[field]))
+        }
+      }
+
+      const { currency, value } = httpRequest.body
+      const currencyIsValid = this.currencyValidator.isValid(currency)
+      if (!currencyIsValid) {
+        return badRequest(new InvalidBodyError('Moeda'))
+      }
+
+      const isCurrencyValueValid = this.currencyValueValidator.isValid(value)
+      if (!isCurrencyValueValid) {
+        return badRequest(new InvalidBodyError('Valor'))
+      }
+    } catch (error) {
+      return serverError()
     }
   }
 }
