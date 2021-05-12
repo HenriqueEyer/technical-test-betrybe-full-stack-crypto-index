@@ -24,3 +24,12 @@ export interface bodyCurrency {
 export interface GetCurrency {
   getCurrency: () => Promise<bodyCurrencies>
 }
+
+export interface bodyRequestUpdate {
+  currency: string
+  value: number
+}
+
+export interface UpdateCurrency {
+  updateCurrency: (body: bodyRequestUpdate) => Promise<boolean>
+}
