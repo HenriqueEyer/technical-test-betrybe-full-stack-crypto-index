@@ -40,4 +40,12 @@ describe('Utils', () => {
     const isValid = await utils.isValidToken(token)
     expect(isValid).toBe(false)
   })
+
+  test('Should Utils.validToken return false if not a generate token', async () => {
+    const token = 'valid_token12345'
+    jest.spyOn(promises, 'readFile').mockReturnValueOnce(Promise.resolve('{ "tokens": ["any_token"]}'))
+    jest.spyOn(validator, 'isAlphanumeric').mockReturnValueOnce(true)
+    const isValid = await utils.isValidToken(token)
+    expect(isValid).toBe(false)
+  })
 })
