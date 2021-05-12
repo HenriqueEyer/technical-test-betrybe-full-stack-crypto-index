@@ -1,6 +1,6 @@
-import { bodyCurrencies } from 'controllers/interfaces'
+import { bodyCurrencies } from 'interfaces'
 import { ServerError } from '../errors/server-error'
-import { HttpResponse } from '../interfaces/http'
+import { HttpResponse } from '../../interfaces/http'
 
 export const badRequest = (error: Error): HttpResponse => ({
   statusCode: 400,

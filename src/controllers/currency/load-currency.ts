@@ -1,5 +1,5 @@
 import { successRequestGetCurrency } from '../helpers/http-helper'
-import { Controller, HttpRequest, HttpResponse } from '../interfaces'
+import { Controller, HttpRequest, HttpResponse } from '../../interfaces'
 
 export default class LoadCurrencyController implements Controller {
   handle (httpRequest?: HttpRequest): HttpResponse {
