@@ -7,4 +7,18 @@ describe('CurrencyValueValidator', () => {
     const isValid = sut.isValid(value)
     expect(isValid).toBe(true)
   })
+
+  test('should return false if value is equal or lesser than 0', () => {
+    const sut = new CurrencyValueValidatorAdapter()
+    const value = 0
+    const isValid = sut.isValid(value)
+    expect(isValid).toBe(false)
+  })
+
+  test('should return false if value is not integer', () => {
+    const sut = new CurrencyValueValidatorAdapter()
+    const value = 2.6
+    const isValid = sut.isValid(value)
+    expect(isValid).toBe(false)
+  })
 })
