@@ -1,4 +1,4 @@
-import { InvalidBodyError } from '../../controllers/errors'
+import { InvalidBodyError, ServerError } from '../../controllers/errors'
 import { bodyRequestUpdate, CurrencyValidator, UpdateCurrency, CurrencyValueValidator } from '../../interfaces'
 import UpdateCurrencyController from './update-currency'
 
@@ -91,5 +91,21 @@ describe('UpdateCurrencyController', () => {
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidBodyError('Valor'))
+  })
+
+  test('Should return 500 if throws', async () => {
+    const { sut, currencyValidatorStub } = makeSut()
+    jest.spyOn(currencyValidatorStub, 'isValid').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const httpRequest = {
+      body: {
+        currency: 'any',
+        value: 1
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
   })
 })
