@@ -163,4 +163,18 @@ describe('UpdateCurrencyController', () => {
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
   })
+
+  test('Should return 200 if updateCurrency success and return true', async () => {
+    const { sut, currencyAdapterStub } = makeSut()
+    jest.spyOn(currencyAdapterStub, 'updateCurrency').mockReturnValueOnce(Promise.resolve(true))
+    const httpRequest = {
+      body: {
+        currency: 'ANY',
+        value: 1
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(200)
+    expect(httpResponse.body).toEqual({ message: 'Valor alterado com sucesso!' })
+  })
 })
