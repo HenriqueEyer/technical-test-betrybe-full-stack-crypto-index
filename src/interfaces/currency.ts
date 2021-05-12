@@ -37,3 +37,7 @@ export interface UpdateCurrency {
 export interface CurrencyValidator {
   isValid: (currency: string) => boolean
 }
+
+export interface CurrencyValueValidator {
+  isValid: (value: number) => boolean
+}
