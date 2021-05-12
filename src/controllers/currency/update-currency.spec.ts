@@ -31,7 +31,7 @@ const makeSut = (): SutTypes => {
   const currencyAdapterStub = new CurrencyAdapterStub()
   const currencyValidatorStub = new CurrencyValidatorStub()
   const currencyValueValidatorStub = new CurrencyValueValidatorStub()
-  const sut = new UpdateCurrencyController(currencyValidatorStub, currencyValueValidatorStub)
+  const sut = new UpdateCurrencyController(currencyValidatorStub, currencyValueValidatorStub, currencyAdapterStub)
   return {
     sut,
     currencyAdapterStub,
@@ -130,5 +130,37 @@ describe('UpdateCurrencyController', () => {
     await sut.handle(httpRequest)
     expect(isValidCurrency).toHaveBeenCalledWith(httpRequest.body.currency)
     expect(isValidValue).toHaveBeenCalledWith(httpRequest.body.value)
+  })
+
+  test('Should return 500 if updateCurrency fail or return false', async () => {
+    const { sut, currencyAdapterStub } = makeSut()
+    jest.spyOn(currencyAdapterStub, 'updateCurrency').mockReturnValueOnce(Promise.resolve(false))
+    const updateCurrencySpy = jest.spyOn(currencyAdapterStub, 'updateCurrency')
+    const httpRequest = {
+      body: {
+        currency: 'ANY',
+        value: 1
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
+    expect(updateCurrencySpy).toHaveBeenCalledTimes(1)
+  })
+
+  test('Should return 500 if updateCurrency throws', async () => {
+    const { sut, currencyAdapterStub } = makeSut()
+    jest.spyOn(currencyAdapterStub, 'updateCurrency').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const httpRequest = {
+      body: {
+        currency: 'ANY',
+        value: 1
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
   })
 })
