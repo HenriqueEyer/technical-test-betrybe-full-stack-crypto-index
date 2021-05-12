@@ -23,11 +23,11 @@ export const isValidToken = async (token: string): Promise<boolean> => {
 
 export const generateToken = (): string => `${Math.random().toString(36).slice(-10)}${Math.random().toString(36).slice(-6)}`
 
-export const saveToken = async (dados: string[], token: string, fileName = 'token.json'): Promise<boolean> => {
+export const saveToken = async (data: string[], token: string, fileName = 'token.json'): Promise<boolean> => {
   let isSuccess = false
-  dados.push(token)
+  data.push(token)
   const obj = {
-    tokens: [...dados]
+    tokens: [...data]
   }
 
   await promises.writeFile(path.resolve(__dirname, 'data', fileName), JSON.stringify(obj))

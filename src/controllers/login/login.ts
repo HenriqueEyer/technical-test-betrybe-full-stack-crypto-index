@@ -1,4 +1,4 @@
-import { badRequest, serverError, successRequest } from '../helpers/http-helper'
+import { badRequest, serverError, successRequestLogin } from '../helpers/http-helper'
 import { EmailValidator, PasswordValidator, Controller, HttpRequest, HttpResponse } from '../interfaces'
 import { MissingParamError, InvalidParamError } from '../errors'
 import { TokenService } from '../../services/token/token-service-interface'
@@ -35,7 +35,7 @@ export default class LoginController implements Controller {
       }
 
       const token = this.tokenService.generateToken(email, password)
-      return successRequest(token)
+      return successRequestLogin(token)
     } catch (error) {
       return serverError()
     }

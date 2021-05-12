@@ -1,3 +1,4 @@
+import { bodyCurrencies } from 'controllers/interfaces'
 import { ServerError } from '../errors/server-error'
 import { HttpResponse } from '../interfaces/http'
 
@@ -11,9 +12,16 @@ export const serverError = (): HttpResponse => ({
   body: new ServerError()
 })
 
-export const successRequest = (token: string): HttpResponse => ({
+export const successRequestLogin = (token: string): HttpResponse => ({
   statusCode: 200,
   body: {
     token
+  }
+})
+
+export const successRequestGetCurrency = (data: bodyCurrencies): HttpResponse => ({
+  statusCode: 200,
+  body: {
+    data
   }
 })
