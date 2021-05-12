@@ -2,6 +2,10 @@ import { getCoin } from './client'
 import fetchMock from 'fetch-mock'
 
 describe('ClientService', () => {
+  afterEach(() => {
+    fetchMock.restore()
+  })
+
   test('Should return value expect', async () => {
     fetchMock.mock('https://api.coindesk.com/v1/bpi/currentprice/BTC.json', {
       body: {
@@ -35,5 +39,11 @@ describe('ClientService', () => {
       updatedISO: '2020-03-22T23:54:00+00:00',
       updateduk: 'Mar 22, 2020 at 23:54 GMT'
     })
+  })
+
+  test('Should return a error if request fail', async () => {
+    fetchMock.mock('https://api.coindesk.com/v1/bpi/currentprice/BTC.json', 500)
+    const data = await getCoin()
+    expect(data).toEqual(new Error('Falha na requisição'))
   })
 })
