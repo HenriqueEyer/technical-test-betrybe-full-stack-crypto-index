@@ -1,14 +1,16 @@
-import { badRequest, serverError } from '../helpers/http-helper'
-import { Controller, CurrencyValidator, CurrencyValueValidator, HttpRequest, HttpResponse } from '../../interfaces'
+import { badRequest, serverError, successRequestUpdateCurrency } from '../helpers/http-helper'
+import { Controller, CurrencyValidator, CurrencyValueValidator, HttpRequest, HttpResponse, UpdateCurrency } from '../../interfaces'
 import { InvalidBodyError } from '../../errors'
 
 export default class UpdateCurrencyController implements Controller {
   private readonly currencyValidator: CurrencyValidator
   private readonly currencyValueValidator: CurrencyValueValidator
+  private readonly currency: UpdateCurrency
 
-  constructor (currencyValidator: CurrencyValidator, currencyValueValidator: CurrencyValueValidator) {
+  constructor (currencyValidator: CurrencyValidator, currencyValueValidator: CurrencyValueValidator, currency: UpdateCurrency) {
     this.currencyValidator = currencyValidator
     this.currencyValueValidator = currencyValueValidator
+    this.currency = currency
   }
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -34,6 +36,12 @@ export default class UpdateCurrencyController implements Controller {
       if (!isCurrencyValueValid) {
         return badRequest(new InvalidBodyError('Valor'))
       }
+
+      const isSuccess = await this.currency.updateCurrency(httpRequest.body)
+      if (!isSuccess) {
+        return serverError()
+      }
+      return successRequestUpdateCurrency()
     } catch (error) {
       return serverError()
     }

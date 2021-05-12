@@ -25,3 +25,10 @@ export const successRequestGetCurrency = (data: bodyCurrencies): HttpResponse =>
     data
   }
 })
+
+export const successRequestUpdateCurrency = (): HttpResponse => ({
+  statusCode: 200,
+  body: {
+    message: 'Valor alterado com sucesso!'
+  }
+})
