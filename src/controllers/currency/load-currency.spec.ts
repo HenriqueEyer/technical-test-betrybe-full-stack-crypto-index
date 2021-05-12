@@ -55,10 +55,19 @@ describe('LoadCurrencyController', () => {
     expect(httpResponse.body.data).toEqual(mockData)
   })
 
-  test('Should call currencyAdapterStub.getCurrency one time', async () => {
+  test('Should call getCurrency one time', async () => {
     const { sut, currencyAdapterStub } = makeSut()
     const getCurrencySpy = jest.spyOn(currencyAdapterStub, 'getCurrency')
     await sut.handle()
     expect(getCurrencySpy).toBeCalledTimes(1)
+  })
+
+  test('Should return 500 if currencyAdapterStub throws', async () => {
+    const { sut, currencyAdapterStub } = makeSut()
+    jest.spyOn(currencyAdapterStub, 'getCurrency').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const httpResponse = await sut.handle()
+    expect(httpResponse.statusCode).toBe(500)
   })
 })
