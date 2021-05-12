@@ -20,3 +20,7 @@ export interface bodyCurrency {
   description: string
   rate_float: number
 }
+
+export interface GetCurrency {
+  getCurrency: () => Promise<bodyCurrencies>
+}

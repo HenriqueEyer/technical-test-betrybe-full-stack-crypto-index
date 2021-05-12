@@ -14,7 +14,7 @@ export default class LoginController implements Controller {
     this.tokenService = tokenService
   }
 
-  handle (httpRequest: HttpRequest): HttpResponse {
+  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const requiredFields = ['email', 'password']
       for (const field of requiredFields) {
