@@ -33,3 +33,7 @@ export interface bodyRequestUpdate {
 export interface UpdateCurrency {
   updateCurrency: (body: bodyRequestUpdate) => Promise<boolean>
 }
+
+export interface CurrencyValidator {
+  isValid: (currency: string) => boolean
+}
