@@ -7,4 +7,11 @@ describe('CurrencyValidator', () => {
     const isValid = sut.isValid(currency)
     expect(isValid).toBe(true)
   })
+
+  test('should return true if currency is invalid', () => {
+    const sut = new CurrencyValidatorAdapter()
+    const currency = 'Invalid'
+    const isValid = sut.isValid(currency)
+    expect(isValid).toBe(false)
+  })
 })
