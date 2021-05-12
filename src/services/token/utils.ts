@@ -26,7 +26,11 @@ export const generateToken = (): string => `${Math.random().toString(36).slice(-
 export const saveToken = async (dados: string[], token: string, fileName = 'token.json'): Promise<boolean> => {
   let isSuccess = false
   dados.push(token)
-  await promises.writeFile(path.resolve(__dirname, 'data', fileName), JSON.stringify(dados))
+  const obj = {
+    tokens: [...dados]
+  }
+
+  await promises.writeFile(path.resolve(__dirname, 'data', fileName), JSON.stringify(obj))
     .then(() => {
       isSuccess = true
     })
