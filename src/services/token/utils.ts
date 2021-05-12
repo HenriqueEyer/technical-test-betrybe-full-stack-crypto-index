@@ -4,7 +4,7 @@ import validator from 'validator'
 import { FileToken } from './token-service-interface'
 
 export const getTokens = async (): Promise<FileToken> => {
-  const content = await promises.readFile(path.resolve(__dirname, 'data', 'tokens.json'), 'utf8')
+  const content = await promises.readFile(path.resolve(__dirname,'..','..', 'data', 'tokens.json'), 'utf8')
   return JSON.parse(content)
 }
 
