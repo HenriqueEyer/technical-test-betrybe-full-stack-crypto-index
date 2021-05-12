@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "fetch-mock": "^9.11.0",
+    "node-fetch": "^2.6.1",
     "validator": "^13.6.0"
   }
 }
