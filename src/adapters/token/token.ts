@@ -1,5 +1,5 @@
-import { TokenService } from './token-service-interface'
-import { generateToken, isValidToken } from './utils'
+import { TokenService } from '../../interfaces/token'
+import { generateToken, isValidToken } from '../../services/token/utils'
 
 export class TokenServiceAdapter implements TokenService {
   generateToken (email?: string, password?: string): string {

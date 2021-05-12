@@ -1,4 +1,4 @@
-import { PasswordValidator } from '../../controllers/interfaces'
+import { PasswordValidator } from '../../interfaces'
 import validator from 'validator'
 
 export class PasswordValidatorAdapter implements PasswordValidator {

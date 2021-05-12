@@ -1,7 +1,7 @@
 import path from 'path'
 import { promises } from 'fs'
 import validator from 'validator'
-import { FileToken } from './token-service-interface'
+import { FileToken } from '../../interfaces/token'
 
 export const getTokens = async (): Promise<FileToken> => {
   const content = await promises.readFile(path.resolve(__dirname,'..','..', 'data', 'tokens.json'), 'utf8')

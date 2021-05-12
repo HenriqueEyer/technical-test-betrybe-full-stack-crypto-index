@@ -6,4 +6,10 @@ describe('LoadCurrencyController', () => {
     const httpResponse = sut.handle()
     expect(httpResponse.statusCode).toBe(200)
   })
+
+  test('Should return 200 and a body with correct values return of CurrencyAdapter', () => {
+    const sut = new LoadCurrencyController()
+    const httpResponse = sut.handle()
+    expect(httpResponse.statusCode).toBe(200)
+  })
 })

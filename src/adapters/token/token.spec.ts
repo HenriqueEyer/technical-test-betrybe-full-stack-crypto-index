@@ -1,6 +1,6 @@
-import { TokenServiceAdapter } from './token-service'
+import { TokenServiceAdapter } from './token'
 import validator from 'validator'
-import * as utils from './utils'
+import * as utils from '../../services/token/utils'
 
 describe('TokenService', () => {
   test('Should generateToken return a token with size 16', () => {
