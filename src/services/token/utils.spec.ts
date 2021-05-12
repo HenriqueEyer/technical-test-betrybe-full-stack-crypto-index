@@ -58,4 +58,16 @@ describe('Utils', () => {
     const isValid = await utils.saveToken(tokens, token)
     expect(isValid).toBe(true)
   })
+
+  test('Should Utils.saveToken return false with not success on save token', async () => {
+    const token = 'valid_token12345'
+    jest.spyOn(promises, 'writeFile').mockImplementationOnce(async () => {
+      throw new Error()
+    })
+    jest.spyOn(promises, 'readFile').mockReturnValueOnce(Promise.resolve('{ "tokens": ["any_token"]}'))
+    jest.spyOn(validator, 'isAlphanumeric').mockReturnValueOnce(true)
+    const { tokens } = await utils.getTokens()
+    const isValid = await utils.saveToken(tokens, token)
+    expect(isValid).toBe(false)
+  })
 })
