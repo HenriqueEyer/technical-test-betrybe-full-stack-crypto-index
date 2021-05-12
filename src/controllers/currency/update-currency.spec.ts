@@ -1,14 +1,21 @@
 import { InvalidBodyError } from '../../controllers/errors'
-import { bodyRequestUpdate, CurrencyValidator, UpdateCurrency } from '../../interfaces'
+import { bodyRequestUpdate, CurrencyValidator, UpdateCurrency, CurrencyValueValidator } from '../../interfaces'
 import UpdateCurrencyController from './update-currency'
 
 interface SutTypes {
   sut: UpdateCurrencyController
   currencyAdapterStub: UpdateCurrency
   currencyValidatorStub: CurrencyValidator
+  currencyValueValidatorStub: CurrencyValueValidator
 }
 
 const makeSut = (): SutTypes => {
+  class CurrencyValueValidatorStub implements CurrencyValueValidator {
+    isValid (value: number): boolean {
+      return true
+    }
+  }
+
   class CurrencyValidatorStub implements CurrencyValidator {
     isValid (currency: string): boolean {
       return true
@@ -23,11 +30,13 @@ const makeSut = (): SutTypes => {
 
   const currencyAdapterStub = new CurrencyAdapterStub()
   const currencyValidatorStub = new CurrencyValidatorStub()
-  const sut = new UpdateCurrencyController(currencyValidatorStub)
+  const currencyValueValidatorStub = new CurrencyValueValidatorStub()
+  const sut = new UpdateCurrencyController(currencyValidatorStub, currencyValueValidatorStub)
   return {
     sut,
     currencyAdapterStub,
-    currencyValidatorStub
+    currencyValidatorStub,
+    currencyValueValidatorStub
   }
 }
 
@@ -68,5 +77,19 @@ describe('UpdateCurrencyController', () => {
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidBodyError('Moeda'))
+  })
+
+  test('Should return 400 if invalid value is provided', async () => {
+    const { sut, currencyValueValidatorStub } = makeSut()
+    jest.spyOn(currencyValueValidatorStub, 'isValid').mockReturnValueOnce(false)
+    const httpRequest = {
+      body: {
+        currency: 'any',
+        value: 0
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new InvalidBodyError('Valor'))
   })
 })
