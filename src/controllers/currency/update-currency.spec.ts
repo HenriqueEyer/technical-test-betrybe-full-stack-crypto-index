@@ -116,4 +116,19 @@ describe('UpdateCurrencyController', () => {
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
   })
+
+  test('Should return validators called with correct values', async () => {
+    const { sut, currencyValidatorStub, currencyValueValidatorStub } = makeSut()
+    const isValidCurrency = jest.spyOn(currencyValidatorStub, 'isValid')
+    const isValidValue = jest.spyOn(currencyValueValidatorStub, 'isValid')
+    const httpRequest = {
+      body: {
+        currency: 'any',
+        value: 1
+      }
+    }
+    await sut.handle(httpRequest)
+    expect(isValidCurrency).toHaveBeenCalledWith(httpRequest.body.currency)
+    expect(isValidValue).toHaveBeenCalledWith(httpRequest.body.value)
+  })
 })
