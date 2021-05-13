@@ -25,4 +25,12 @@ describe('Route Login', () => {
       .get('/api/cryto/btc')
       .expect(401)
   })
+
+  test('/api/cryto/btc should return 401 and correct message', async () => {
+    jest.spyOn(util, 'isValidToken').mockReturnValueOnce(Promise.resolve(false))
+    const httpResponse = await request(app)
+      .get('/api/cryto/btc')
+      .expect(401)
+    expect(httpResponse.body).toEqual({ message: 'Token inválido' })
+  })
 })
