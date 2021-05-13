@@ -1,5 +1,8 @@
 import { getCoin } from './client'
-import fetchMock from 'fetch-mock'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox())
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const fetchMock = require('node-fetch')
 
 describe('ClientService', () => {
   afterEach(() => {
