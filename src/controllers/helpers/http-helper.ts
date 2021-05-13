@@ -32,3 +32,10 @@ export const successRequestUpdateCurrency = (): HttpResponse => ({
     message: 'Valor alterado com sucesso!'
   }
 })
+
+export const unauthorizedAccess = (): HttpResponse => ({
+  statusCode: 401,
+  body: {
+    message: 'Token inválido'
+  }
+})
