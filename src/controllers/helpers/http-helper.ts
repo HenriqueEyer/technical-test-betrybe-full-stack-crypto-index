@@ -1,4 +1,4 @@
-import { bodyCurrencies } from 'interfaces'
+import { bodyCurrencies } from '../../interfaces'
 import { ServerError } from '../../errors/server-error'
 import { HttpResponse } from '../../interfaces/http'
 
