@@ -14,7 +14,6 @@ router.get('/', async (req, res) => {
   res.status(statusCode).json(body)
 })
 
-
 router.post('/', async (req, res) => {
   const CurrencyValidator = new CurrencyValidatorAdapter()
   const CurrencyValueValidator = new CurrencyValueValidatorAdapter()
