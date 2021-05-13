@@ -1,5 +1,5 @@
 import request from 'supertest'
-import { app } from '../../api'
+import app from '../app'
 import * as util from '../../services/token/utils'
 import { promises } from 'fs'
 import { InvalidParamError } from '../../errors'
@@ -20,7 +20,7 @@ describe('Route Login', () => {
   test('Login should return 400 and message if password is invalid', async () => {
     const login = { email: 'valid@valid.com', password: '1234567' }
     const res = await request(app)
-      .post('/api/login/')
+      .post('/api/login')
       .send(login)
       .expect(400)
     expect(res.body).toEqual({ message: new InvalidParamError().message })
@@ -29,7 +29,7 @@ describe('Route Login', () => {
   test('Login should return 400 and message if email is invalid', async () => {
     const login = { email: 'invalid', password: '123456' }
     const res = await request(app)
-      .post('/api/login/')
+      .post('/api/login')
       .send(login)
       .expect(400)
     expect(res.body).toEqual({ message: new InvalidParamError().message })
