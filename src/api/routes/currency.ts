@@ -4,8 +4,11 @@ import CurrencyAdapter from '../../adapters/currency/currency'
 import UpdateCurrencyController from '../../controllers/currency/update-currency'
 import { CurrencyValidatorAdapter } from '../../services/validators/currency-validator'
 import { CurrencyValueValidatorAdapter } from '../../services/validators/currency-value-validator'
+import Auth from '../middleware/auth'
 
 const router = express.Router()
+
+router.use(Auth)
 
 router.get('/', async (req, res) => {
   const GetCurrency = new CurrencyAdapter()

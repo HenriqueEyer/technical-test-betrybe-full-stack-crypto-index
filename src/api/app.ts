@@ -1,4 +1,3 @@
-import Auth from './middleware/auth'
 import express from 'express'
 import Login from './routes/login'
 import currency from './routes/currency'
@@ -12,8 +11,12 @@ app.use(express.urlencoded({
 
 app.use('/api/login', Login)
 
-app.use(Auth)
-
 app.use('/api/cryto/btc', currency)
+
+app.use((req, res) => {
+  res.status(404).json({
+    message: 'Endpoint não encontrado'
+  })
+})
 
 export default app
