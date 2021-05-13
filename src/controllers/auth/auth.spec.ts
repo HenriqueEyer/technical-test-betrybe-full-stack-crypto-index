@@ -65,7 +65,7 @@ describe('AuthController', () => {
     const { sut, tokenServiceStub } = makeSut()
     const validTokenSpy = jest.spyOn(tokenServiceStub, 'validToken')
     const request = {
-      token: 'invalid'
+      token: 'any'
     }
     await sut.handle(request)
     expect(validTokenSpy).toHaveBeenCalledWith(request.token)
