@@ -1,9 +1,11 @@
 import { TokenService } from '../../interfaces/token'
-import { generateToken, isValidToken } from '../../services/token/utils'
+import { generateToken, isValidToken, saveToken } from '../../services/token/utils'
 
 export class TokenServiceAdapter implements TokenService {
-  generateToken (email?: string, password?: string): string {
-    return generateToken()
+  async generateToken (email?: string, password?: string): Promise<string> {
+    const token = generateToken()
+    await saveToken(token)
+    return token
   }
 
   async validToken (token: string): Promise<boolean> {

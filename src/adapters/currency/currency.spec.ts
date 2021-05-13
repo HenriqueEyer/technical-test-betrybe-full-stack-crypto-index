@@ -54,4 +54,30 @@ describe('CurrencyAdapter', () => {
     expect(data.bpi.CAD).toEqual(expectValueCAD)
     expect(data.bpi.EUR).toEqual(expectValueEUR)
   })
+
+  test('Should updateCurrency return true if success with the update', async () => {
+    const sut = new CurrencyAdapter()
+    jest.spyOn(promises, 'readFile').mockReturnValueOnce(Promise.resolve(mockCurrencyValues))
+    jest.spyOn(promises, 'writeFile').mockReturnValueOnce(Promise.resolve())
+    const bodyRequest = {
+      currency: 'CAD',
+      value: 2
+    }
+    const data = await sut.updateCurrency(bodyRequest)
+    expect(data).toBe(true)
+  })
+
+  test('Should updateCurrency return true if success with the update', async () => {
+    const sut = new CurrencyAdapter()
+    jest.spyOn(promises, 'readFile').mockReturnValueOnce(Promise.resolve(mockCurrencyValues))
+    jest.spyOn(promises, 'writeFile').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const bodyRequest = {
+      currency: 'CAD',
+      value: 2
+    }
+    const data = await sut.updateCurrency(bodyRequest)
+    expect(data).toBe(false)
+  })
 })

@@ -1,8 +1,8 @@
-import { GetCurrency, bodyCurrencies } from '../../interfaces'
+import { GetCurrency, bodyCurrencies, UpdateCurrency, bodyRequestUpdate } from '../../interfaces'
 import { getCoin } from '../../services/client/client'
-import { getCurrencies } from '../../services/currency/utils'
+import { getCurrencies, updateCurrencies } from '../../services/currency/utils'
 
-export default class CurrencyAdapter implements GetCurrency {
+export default class CurrencyAdapter implements GetCurrency, UpdateCurrency {
   async getCurrency (): Promise<bodyCurrencies> {
     const data = await getCoin()
     const currencies = await getCurrencies()
@@ -22,5 +22,13 @@ export default class CurrencyAdapter implements GetCurrency {
       }
     })
     return data
+  }
+
+  async updateCurrency (body: bodyRequestUpdate): Promise<boolean> {
+    const currencies = await getCurrencies()
+    const { currency, value } = body
+    currencies[currency] = value
+    const isSuccess = await updateCurrencies(currencies)
+    return isSuccess
   }
 }
