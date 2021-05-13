@@ -24,7 +24,7 @@ const makeSut = (): SutTypes => {
   }
 
   class TokenServiceStub implements TokenService {
-    generateToken (password: string, email: string): string {
+    async generateToken (password: string, email: string): Promise<string> {
       return 'any_token'
     }
 
@@ -190,7 +190,7 @@ describe('Login Controller', () => {
   test('Should return 200 if generateToken Success and return a token', async () => {
     const { sut, tokenServiceStub } = makeSut()
     const mockToken = 'any_token'
-    jest.spyOn(tokenServiceStub, 'generateToken').mockReturnValueOnce(mockToken)
+    jest.spyOn(tokenServiceStub, 'generateToken').mockReturnValueOnce(Promise.resolve(mockToken))
     const httpRequest = {
       body: {
         email: 'any_email@mail.com',
