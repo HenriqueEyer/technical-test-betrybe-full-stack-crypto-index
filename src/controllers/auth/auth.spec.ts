@@ -51,4 +51,13 @@ describe('AuthController', () => {
     const isValid = await sut.handle(request)
     expect(isValid).toBe(false)
   })
+
+  test('Should return true if token validator return true', async () => {
+    const { sut } = makeSut()
+    const request = {
+      token: 'invalid'
+    }
+    const isValid = await sut.handle(request)
+    expect(isValid).toBe(true)
+  })
 })
