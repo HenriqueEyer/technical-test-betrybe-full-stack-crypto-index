@@ -54,7 +54,7 @@ describe('UpdateCurrencyController', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new InvalidBodyError('Moeda'))
+    expect(httpResponse.body).toEqual({ message: new InvalidBodyError('Moeda').message })
   })
 
   test('Should return 400 if no valor is provided', async () => {
@@ -66,7 +66,7 @@ describe('UpdateCurrencyController', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new InvalidBodyError('Valor'))
+    expect(httpResponse.body).toEqual({ message: new InvalidBodyError('Valor').message })
   })
 
   test('Should return 400 if invalid currency is provided', async () => {
@@ -81,7 +81,7 @@ describe('UpdateCurrencyController', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new InvalidBodyError('Moeda'))
+    expect(httpResponse.body).toEqual({ message: new InvalidBodyError('Moeda').message })
     expect(isValidSpy).toHaveBeenCalledTimes(1)
   })
 
@@ -97,7 +97,7 @@ describe('UpdateCurrencyController', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new InvalidBodyError('Valor'))
+    expect(httpResponse.body).toEqual({ message: new InvalidBodyError('Valor').message })
     expect(isValidSpy).toHaveBeenCalledTimes(1)
   })
 
@@ -114,7 +114,7 @@ describe('UpdateCurrencyController', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new ServerError())
+    expect(httpResponse.body).toEqual({ message: new ServerError().message })
   })
 
   test('Should return validators called with correct values', async () => {
@@ -144,7 +144,7 @@ describe('UpdateCurrencyController', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new ServerError())
+    expect(httpResponse.body).toEqual({ message: new ServerError().message })
     expect(updateCurrencySpy).toHaveBeenCalledTimes(1)
   })
 
@@ -161,7 +161,7 @@ describe('UpdateCurrencyController', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new ServerError())
+    expect(httpResponse.body).toEqual({ message: new ServerError().message })
   })
 
   test('Should return 200 if updateCurrency success and return true', async () => {
