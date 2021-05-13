@@ -14,4 +14,12 @@ describe('Route Login', () => {
       .set('Authorization', 'validtoken123456')
       .expect(200)
   })
+
+  test('/api/cryto/btc should return 401 if token invalid', async () => {
+    jest.spyOn(util, 'isValidToken').mockReturnValueOnce(Promise.resolve(false))
+    await request(app)
+      .get('/api/cryto/btc')
+      .set('Authorization', 'invalidtoken123456')
+      .expect(401)
+  })
 })
