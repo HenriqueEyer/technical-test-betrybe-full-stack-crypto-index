@@ -11,7 +11,7 @@ app.use(express.urlencoded({
 
 app.use('/api/login', Login)
 
-app.use('/api/cryto/btc', currency)
+app.use('/api/crypto/btc', currency)
 
 app.use((req, res) => {
   res.status(404).json({
