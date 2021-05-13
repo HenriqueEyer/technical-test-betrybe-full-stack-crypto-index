@@ -69,4 +69,21 @@ describe('Route Login', () => {
       .expect(400)
     expect(httpResponse.body).toEqual({ message: 'Valor inválido' })
   })
+
+  test('Post to /api/cryto/btc should return 400 and correct message if a value invalid is provided', async () => {
+    jest.spyOn(util, 'isValidToken').mockReturnValueOnce(Promise.resolve(true))
+    jest.spyOn(promises, 'writeFile').mockReturnValueOnce(Promise.resolve())
+
+    const body = {
+      currency: 'CA',
+      value: 10
+    }
+
+    const httpResponse = await request(app)
+      .post('/api/cryto/btc')
+      .set('Authorization', 'validtoken123456')
+      .send(body)
+      .expect(400)
+    expect(httpResponse.body).toEqual({ message: 'Moeda inválida' })
+  })
 })
