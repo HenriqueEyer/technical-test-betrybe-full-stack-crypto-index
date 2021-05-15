@@ -1,4 +1,4 @@
-import { EmailValidatorAdapter } from './email-validator'
+import { EmailValidatorAdapter } from '../../services/validators/email-validator'
 import validator from 'validator'
 
 describe('EmailValidator', () => {

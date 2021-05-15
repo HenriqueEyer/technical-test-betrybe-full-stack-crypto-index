@@ -1,4 +1,4 @@
-import { CurrencyValidatorAdapter } from './currency-validator'
+import { CurrencyValidatorAdapter } from '../../services/validators/currency-validator'
 
 describe('CurrencyValidator', () => {
   test('should return true if currency is valid', () => {

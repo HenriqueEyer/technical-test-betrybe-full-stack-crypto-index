@@ -1,5 +1,5 @@
 import request from 'supertest'
-import app from '../app'
+import app from '../../api/app'
 import * as util from '../../services/token/utils'
 import { promises } from 'fs'
 

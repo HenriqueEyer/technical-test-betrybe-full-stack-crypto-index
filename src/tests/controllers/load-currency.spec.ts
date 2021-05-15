@@ -1,5 +1,5 @@
 import { GetCurrency, bodyCurrencies } from '../../interfaces'
-import LoadCurrencyController from './load-currency'
+import LoadCurrencyController from '../../controllers/currency/load-currency'
 
 const mockCurrency = {
   code: '',

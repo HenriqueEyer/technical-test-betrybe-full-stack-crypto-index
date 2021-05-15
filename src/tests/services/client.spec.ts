@@ -1,4 +1,4 @@
-import { getCoin } from './client'
+import { getCoin } from '../../services/client/client'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 jest.mock('node-fetch', () => require('fetch-mock-jest').sandbox())
 // eslint-disable-next-line @typescript-eslint/no-var-requires

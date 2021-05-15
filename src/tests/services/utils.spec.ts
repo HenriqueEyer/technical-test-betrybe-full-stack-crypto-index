@@ -1,5 +1,5 @@
 import validator from 'validator'
-import * as utils from './utils'
+import * as utils from '../../services/token/utils'
 import { promises } from 'fs'
 
 describe('Utils', () => {

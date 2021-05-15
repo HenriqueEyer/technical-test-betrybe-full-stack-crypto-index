@@ -1,4 +1,4 @@
-import CurrencyAdapter from './currency'
+import CurrencyAdapter from '../../adapters/currency/currency'
 import { promises } from 'fs'
 import * as client from '../../services/client/client'
 

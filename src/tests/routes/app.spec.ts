@@ -1,5 +1,5 @@
 import request from 'supertest'
-import app from './app'
+import app from '../../api/app'
 
 describe('App', () => {
   test('should return 404 and message if not found a endpoint valid', async () => {

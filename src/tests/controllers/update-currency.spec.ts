@@ -1,6 +1,6 @@
 import { InvalidBodyError, ServerError } from '../../errors'
 import { bodyRequestUpdate, CurrencyValidator, UpdateCurrency, CurrencyValueValidator } from '../../interfaces'
-import UpdateCurrencyController from './update-currency'
+import UpdateCurrencyController from '../../controllers/currency/update-currency'
 
 interface SutTypes {
   sut: UpdateCurrencyController

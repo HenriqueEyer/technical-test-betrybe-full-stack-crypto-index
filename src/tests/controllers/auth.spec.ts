@@ -1,4 +1,4 @@
-import AuthController from './auth'
+import AuthController from '../../controllers/auth/auth'
 import { TokenService } from '../../interfaces/token'
 
 interface SutTypes {
